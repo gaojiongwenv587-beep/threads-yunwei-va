@@ -1,0 +1,12 @@
+# 敏感信息绝不上传
+*secrets*
+*.env
+.env.*
+
+# 本地运营数据（存于 ~/.threads/，不属于 skill 本身）
+yunwei_*.json
+yunwei_*.md
+calibration-history.md
+
+# macOS
+.DS_Store
