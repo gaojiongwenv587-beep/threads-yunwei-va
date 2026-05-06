@@ -228,7 +228,38 @@ Step 5/5：对标账号
 
 ### PHASE -1：AI 自检（每次启动第一步）
 
-在执行任何操作之前，Claude 必须先完成自检并声明就绪：
+在执行任何操作之前，Claude 必须按顺序完成以下步骤：
+
+**Step A — 读取知识库文件**
+
+读取 `KNOWLEDGE_FILES` 中配置的所有文件。对于 VA 专属版，文件位于本 SKILL.md 所在目录的 `references/` 子目录下：
+
+```
+{SKILL_DIR}/references/va-prices.md              ← VA 完整价格表（含 TWD 换算）
+{SKILL_DIR}/references/va-whitepaper.md          ← VA 白皮书（院长/项目）
+{SKILL_DIR}/references/va-operational-insights.md ← 当前策略+周度分析+踩坑记录
+{SKILL_DIR}/references/va-monthly-report-april.md ← 4月月报（如存在）
+```
+
+> `{SKILL_DIR}` = 本 SKILL.md 文件所在的绝对路径目录。每次启动时必须解析并实际读取上述文件内容，不得跳过。
+
+**Step B — 读取运营记忆文件**
+
+```
+~/.threads/memory/daily.md      ← 近期洞察
+~/.threads/memory/weekly.md     ← 已验证规律
+~/.threads/memory/longterm.md   ← 长期方法论
+```
+
+**Step C — 读取当前策略与会话状态**
+
+```
+~/.threads/yunwei_strategy.json   ← 当前运营策略（日限额、热点话题等）
+~/.threads/yunwei_session.json    ← 上次运营断点（断点续传用）
+~/.threads/yunwei_kpi.json        ← 当前 KPI 状态
+```
+
+完成以上三步后，输出自检报告：
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -237,14 +268,16 @@ Step 5/5：对标账号
 模型        claude-sonnet-4-6（或当前可用最高版本）
 角色        $ACCOUNT_NAME 运营决策引擎
 职责        数据分析 / 目标筛选 / 内容生成 / 记忆管理 / 策略进化
+知识库      已读 N 个文件（价格表 / 白皮书 / 运营洞察 / 月报）
 记忆读取    [已读 / 未读 / 首次运行]
+当前策略    [运营模式] / 日限：X帖 Y评论 Z点赞
 今日状态    [首次运行 / 续跑 Phase N / 补充执行]
 
 AI 就绪，开始运营。
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-若 Claude 无法完成自检输出，**立即停止，不执行任何后续步骤**。
+若任何文件读取失败，**必须明确报告哪个文件缺失，然后继续（不因缺少可选文件而中止）**。若 Claude 未完成自检输出，立即停止，不执行任何后续步骤。
 
 ---
 
