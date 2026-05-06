@@ -1,12 +1,46 @@
-# 敏感信息绝不上传
+# ── 敏感信息 — 绝不上传 ──────────────────────────
+*secret*
 *secrets*
+*credential*
+*token*
+*.key
+*.pem
 *.env
+.env
 .env.*
+env.local
 
-# 本地运营数据（存于 ~/.threads/，不属于 skill 本身）
+# ── 本地运营数据（存于 ~/.threads/，不属于 skill）──
 yunwei_*.json
 yunwei_*.md
 calibration-history.md
+yunwei-record-*.json
+operation_log.json
+replied_posts.json
+skill_config.json
+filter-config.json
 
-# macOS
+# ── Chrome Profile（含账号 Cookie）────────────────
+chrome-profile/
+accounts/
+
+# ── Python ───────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# ── macOS ─────────────────────────────────────────
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# ── 编辑器 ────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
